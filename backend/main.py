@@ -5,16 +5,14 @@ import random
 
 app = FastAPI()
 
-# CORS Middleware to allow frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change "*" to your frontend URL for security
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Define the request body model
 class CodeRequest(BaseModel):
     code: str
 
@@ -25,7 +23,6 @@ async def analyze_code(request: CodeRequest):
     if not code:
         return {"error": "No code provided"}
     
-    # Mocked analysis logic - you can integrate actual static analysis tools here
     analysis_result = {
         "overall_score": 82,
         "breakdown": {
