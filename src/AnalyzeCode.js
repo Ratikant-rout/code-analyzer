@@ -8,7 +8,7 @@ function AnalyzeCode() {
 
   const analyzeCode = async () => {
     if (!code.trim()) {
-      setError("Please enter some code to analyze.");
+      setError("⚠️ Please enter some code to analyze.");
       return;
     }
 
@@ -17,7 +17,7 @@ function AnalyzeCode() {
     setResult(null);
 
     try {
-      const response = await fetch("https://your-app.onrender.com/analyze", {
+      const response = await fetch("https://code-analyzer-wkyt.onrender.com/analyze", {
         // ✅ Update API URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -25,13 +25,14 @@ function AnalyzeCode() {
       });
 
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        const errorMessage = await response.text(); // Get error response
+        throw new Error(`❌ API Error: ${response.status} - ${errorMessage}`);
       }
 
       const data = await response.json();
       setResult(data);
     } catch (error) {
-      setError(error.message || "Failed to analyze code");
+      setError(error.message || "🚨 Failed to analyze code. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -45,18 +46,17 @@ function AnalyzeCode() {
         className="w-full max-w-2xl h-40 p-3 border border-gray-300 rounded-md shadow-md focus:ring-2 focus:ring-blue-400"
         value={code}
         onChange={(e) => setCode(e.target.value)}
-        placeholder="Enter your code here..."
+        placeholder="💡 Enter your code here..."
       />
 
       <button
-        className={`bg-blue-500 text-white px-5 py-2 mt-4 rounded-md shadow-md transition ${
+        className={`bg-blue-500 text-white px-5 py-2 mt-4 rounded-md shadow-md transition flex items-center justify-center ${
           loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
         }`}
         onClick={analyzeCode}
         disabled={loading}
       >
-        {loading ? <span className="animate-spin">🔄</span> : "Analyze Code"}{" "}
-        {/* ✅ Add spinner */}
+        {loading ? <span className="animate-spin">⏳ Analyzing...</span> : "🚀 Analyze Code"}
       </button>
 
       {error && <p className="text-red-500 mt-3">{error}</p>}
@@ -64,7 +64,7 @@ function AnalyzeCode() {
       {result && (
         <div className="mt-6 p-5 bg-white shadow-lg rounded-md w-full max-w-2xl">
           <h3 className="text-xl font-semibold text-green-600">
-            Overall Score: {result.overall_score} / 100
+            🎯 Overall Score: {result.overall_score} / 100
           </h3>
           <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
             <div
@@ -73,7 +73,7 @@ function AnalyzeCode() {
             ></div>
           </div>
 
-          <h4 className="mt-4 text-lg font-medium">Breakdown:</h4>
+          <h4 className="mt-4 text-lg font-medium">📊 Breakdown:</h4>
           <div className="grid grid-cols-2 gap-3 mt-2">
             {Object.entries(result.breakdown).map(([key, value]) => (
               <div key={key} className="p-3 bg-gray-100 rounded-md shadow-sm">
@@ -85,7 +85,7 @@ function AnalyzeCode() {
             ))}
           </div>
 
-          <h4 className="mt-5 text-lg font-medium">Recommendations:</h4>
+          <h4 className="mt-5 text-lg font-medium">✅ Recommendations:</h4>
           <ul className="mt-2 space-y-2">
             {result.recommendations.map((rec, index) => (
               <li
@@ -103,5 +103,6 @@ function AnalyzeCode() {
 }
 
 export default AnalyzeCode;
+
 
 
