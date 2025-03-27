@@ -17,7 +17,8 @@ function AnalyzeCode() {
     setResult(null);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/analyze", {
+      const response = await fetch("https://your-app.onrender.com/analyze", {
+        // ✅ Update API URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code }),
@@ -54,14 +55,14 @@ function AnalyzeCode() {
         onClick={analyzeCode}
         disabled={loading}
       >
-        {loading ? "Analyzing..." : "Analyze Code"}
+        {loading ? <span className="animate-spin">🔄</span> : "Analyze Code"}{" "}
+        {/* ✅ Add spinner */}
       </button>
 
       {error && <p className="text-red-500 mt-3">{error}</p>}
 
       {result && (
         <div className="mt-6 p-5 bg-white shadow-lg rounded-md w-full max-w-2xl">
-          {/* Overall Score with Progress Bar */}
           <h3 className="text-xl font-semibold text-green-600">
             Overall Score: {result.overall_score} / 100
           </h3>
@@ -72,7 +73,6 @@ function AnalyzeCode() {
             ></div>
           </div>
 
-          {/* Breakdown Scores in a Grid */}
           <h4 className="mt-4 text-lg font-medium">Breakdown:</h4>
           <div className="grid grid-cols-2 gap-3 mt-2">
             {Object.entries(result.breakdown).map(([key, value]) => (
@@ -85,7 +85,6 @@ function AnalyzeCode() {
             ))}
           </div>
 
-          {/* Recommendations as a List */}
           <h4 className="mt-5 text-lg font-medium">Recommendations:</h4>
           <ul className="mt-2 space-y-2">
             {result.recommendations.map((rec, index) => (
@@ -104,4 +103,5 @@ function AnalyzeCode() {
 }
 
 export default AnalyzeCode;
+
 
