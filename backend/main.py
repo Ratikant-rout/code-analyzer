@@ -7,10 +7,10 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware (Update for production)
+# ✅ CORS Middleware (Fixed Vercel URL)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://code-analyzer-psi.vercel.app/"],  # Specify allowed origins
+    allow_origins=["http://localhost:3000", "https://code-analyzer-psi.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,8 +39,8 @@ def analyze_code(code_input: CodeInput):
         "best_practices": random.randint(5, 20),
     }
 
-    # ✅ Calculate `overall_score` as a weighted average
-    overall_score = sum(breakdown.values()) // len(breakdown)
+    # ✅ Calculate `overall_score` (Ensuring min 50)
+    overall_score = max(50, sum(breakdown.values()) // len(breakdown))
 
     # ✅ More dynamic recommendations
     recommendations_list = {
@@ -66,4 +66,3 @@ def analyze_code(code_input: CodeInput):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Get PORT from env, default to 8000
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
-
