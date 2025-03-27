@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// ✅ Update API URL for deployment (Change to your Render backend URL)
-const API_URL = "https://your-app.onrender.com"; // Replace with actual Render URL
+// ✅ Update API URL for deployment
+const API_URL = "https://code-analyzer-wkyt.onrender.com"; // Replace with actual backend URL
 
 // ✅ Check API status
 export const getStatus = async () => {
@@ -34,4 +34,5 @@ export const analyzeCode = async (code) => {
     return null;
   }
 };
+
 
