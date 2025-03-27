@@ -7,10 +7,10 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware (Fixed Vercel URL)
+# ✅ Allow frontend to access backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://code-analyzer-psi.vercel.app"],
+    allow_origins=["*"],  # Update if needed
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,10 +39,10 @@ def analyze_code(code_input: CodeInput):
         "best_practices": random.randint(5, 20),
     }
 
-    # ✅ Calculate `overall_score` (Ensuring min 50)
-    overall_score = max(50, sum(breakdown.values()) // len(breakdown))
+    # ✅ Calculate overall score
+    overall_score = sum(breakdown.values()) // len(breakdown)
 
-    # ✅ More dynamic recommendations
+    # ✅ Generate recommendations based on weakest areas
     recommendations_list = {
         "naming": "Use meaningful variable and function names.",
         "modularity": "Break large functions into smaller, reusable ones.",
@@ -51,8 +51,7 @@ def analyze_code(code_input: CodeInput):
         "reusability": "Use functions and classes to avoid redundant code.",
         "best_practices": "Follow industry best practices such as DRY and SOLID principles.",
     }
-
-    # Select top 2 weakest areas for recommendations
+    
     weakest_areas = sorted(breakdown, key=breakdown.get)[:2]
     recommendations = [recommendations_list[area] for area in weakest_areas]
 
@@ -62,7 +61,7 @@ def analyze_code(code_input: CodeInput):
         "recommendations": recommendations,
     }
 
-# ✅ Run Uvicorn server properly with dynamic port
+# ✅ Ensure backend runs correctly
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))  # Get PORT from env, default to 8000
+    port = int(os.getenv("PORT", 8000))  # Render dynamically assigns a PORT
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
