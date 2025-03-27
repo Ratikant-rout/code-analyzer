@@ -7,10 +7,10 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# ✅ CORS Middleware (Change `allow_origins` in production)
+# ✅ CORS Middleware (Update for production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change this to frontend URL in production
+    allow_origins=["http://localhost:3000", "https://code-analyzer-psi.vercel.app/"],  # Specify allowed origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,7 +29,7 @@ def analyze_code(code_input: CodeInput):
     if not code:
         raise HTTPException(status_code=400, detail="No code provided")
 
-    overall_score = random.randint(50, 100)
+    # ✅ Generate breakdown scores dynamically
     breakdown = {
         "naming": random.randint(5, 20),
         "modularity": random.randint(5, 20),
@@ -38,16 +38,28 @@ def analyze_code(code_input: CodeInput):
         "reusability": random.randint(5, 20),
         "best_practices": random.randint(5, 20),
     }
-    recommendations = [
-        "Avoid deeply nested components in your React render logic.",
-        "Refactor long functions for better readability.",
-        "Use consistent variable naming conventions.",
-    ]
+
+    # ✅ Calculate `overall_score` as a weighted average
+    overall_score = sum(breakdown.values()) // len(breakdown)
+
+    # ✅ More dynamic recommendations
+    recommendations_list = {
+        "naming": "Use meaningful variable and function names.",
+        "modularity": "Break large functions into smaller, reusable ones.",
+        "comments": "Ensure your code has sufficient comments for clarity.",
+        "formatting": "Follow consistent indentation and styling conventions.",
+        "reusability": "Use functions and classes to avoid redundant code.",
+        "best_practices": "Follow industry best practices such as DRY and SOLID principles.",
+    }
+
+    # Select top 2 weakest areas for recommendations
+    weakest_areas = sorted(breakdown, key=breakdown.get)[:2]
+    recommendations = [recommendations_list[area] for area in weakest_areas]
 
     return {
         "overall_score": overall_score,
         "breakdown": breakdown,
-        "recommendations": recommendations[:2],  # Show top 2 recommendations
+        "recommendations": recommendations,
     }
 
 # ✅ Run Uvicorn server properly with dynamic port
