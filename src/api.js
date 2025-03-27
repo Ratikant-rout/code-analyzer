@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000"; // FastAPI backend URL
+// ✅ Update API URL for deployment (Change to your Render backend URL)
+const API_URL = "https://your-app.onrender.com"; // Replace with actual Render URL
 
 // ✅ Check API status
 export const getStatus = async () => {
@@ -33,3 +34,4 @@ export const analyzeCode = async (code) => {
     return null;
   }
 };
+
