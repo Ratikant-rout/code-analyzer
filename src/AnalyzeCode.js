@@ -40,7 +40,7 @@ function AnalyzeCode() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-4xl font-bold text-blue-600 mb-6">Carbon Crunch</h1>
+      <h1 className="text-4xl font-bold text-blue-600 mb-6">Code Analyzer</h1>
 
       <textarea
         className="w-full max-w-2xl h-40 p-3 border border-gray-300 rounded-md shadow-md focus:ring-2 focus:ring-blue-400"
