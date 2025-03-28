@@ -31,12 +31,12 @@ def analyze_code(code_input: CodeInput):
 
     # ✅ Generate breakdown scores dynamically
     breakdown = {
-        "naming": random.randint(5, 20),
+        "naming": random.randint(5, 80),
         "modularity": random.randint(5, 20),
-        "comments": random.randint(5, 20),
-        "formatting": random.randint(5, 20),
-        "reusability": random.randint(5, 20),
-        "best_practices": random.randint(5, 20),
+        "comments": random.randint(5, 50),
+        "formatting": random.randint(5, 90),
+        "reusability": random.randint(5, 95),
+        "best_practices": random.randint(5, 99),
     }
 
     # ✅ Calculate overall score
