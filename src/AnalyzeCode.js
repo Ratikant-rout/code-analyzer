@@ -20,7 +20,6 @@ function AnalyzeCode() {
       const response = await fetch(
         "https://code-analyzer-wkyt.onrender.com/analyze",
         {
-          // ✅ Update API URL
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
@@ -28,7 +27,7 @@ function AnalyzeCode() {
       );
 
       if (!response.ok) {
-        const errorMessage = await response.text(); // Get error response
+        const errorMessage = await response.text();
         throw new Error(`❌ API Error: ${response.status} - ${errorMessage}`);
       }
 
@@ -53,7 +52,7 @@ function AnalyzeCode() {
       />
 
       <button
-        className={`bg-blue-500 text-white px-5 py-2 mt-4 rounded-md shadow-md transition flex items-center justify-center ${
+        className={`bg-blue-500 text-black px-5 py-2 mt-4 rounded-md shadow-md transition flex items-center justify-center ${
           loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
         }`}
         onClick={analyzeCode}
