@@ -17,12 +17,15 @@ function AnalyzeCode() {
     setResult(null);
 
     try {
-      const response = await fetch("https://code-analyzer-wkyt.onrender.com/analyze", {
-        // ✅ Update API URL
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
+      const response = await fetch(
+        "https://code-analyzer-wkyt.onrender.com/analyze",
+        {
+          // ✅ Update API URL
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code }),
+        }
+      );
 
       if (!response.ok) {
         const errorMessage = await response.text(); // Get error response
@@ -56,7 +59,11 @@ function AnalyzeCode() {
         onClick={analyzeCode}
         disabled={loading}
       >
-        {loading ? <span className="animate-spin">⏳ Analyzing...</span> : "🚀 Analyze Code"}
+        {loading ? (
+          <span className="animate-spin">⏳ Analyzing...</span>
+        ) : (
+          "🚀 Analyze Code"
+        )}
       </button>
 
       {error && <p className="text-red-500 mt-3">{error}</p>}
@@ -103,6 +110,3 @@ function AnalyzeCode() {
 }
 
 export default AnalyzeCode;
-
-
-
