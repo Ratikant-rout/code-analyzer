@@ -10,7 +10,7 @@ app = FastAPI()
 # ✅ Allow frontend to access backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Update if needed
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,7 +61,6 @@ def analyze_code(code_input: CodeInput):
         "recommendations": recommendations,
     }
 
-# ✅ Ensure backend runs correctly
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))  # Render dynamically assigns a PORT
     uvicorn.run(app, host="0.0.0.0", port=port, reload=True)
