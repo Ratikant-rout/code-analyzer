@@ -1,74 +1,138 @@
+/* Importing Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --bg-light: #f8f9fa;
+  --bg-dark: #212529;
+  --text-light: #ffffff;
+  --text-dark: #333;
+}
+
+/* Global Styles */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: white;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
 }
 
-.App {
-  text-align: center;
+/* Dark Mode */
+body.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Code Input Box */
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  resize: vertical;
+  transition: border 0.3s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 10s linear;
-  }
+textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 
-.App-header {
-  background: rgba(0, 0, 0, 0.2);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(12px + 2vmin);
-  box-shadow: 0px 4px 20px rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  padding: 20px;
-}
-
-.App-link {
-  color: #ffcc00;
-  font-weight: 600;
-  transition: 0.3s ease-in-out;
-}
-
-.App-link:hover {
-  color: #ff9900;
-  text-decoration: underline;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Buttons */
+/* Button Styling */
 button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 25px;
-  background: #ffcc00;
-  color: #333;
-  font-size: 1rem;
-  font-weight: bold;
   cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--primary-color);
+  color: white;
   transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 button:hover {
-  background: #ff9900;
-  transform: scale(1.1);
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Card Styling */
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 4px 10px white;
+  width: 80%;
+  max-width: 700px;
+  transition: all 0.3s ease;
+}
+
+/* Dark Mode Enhancements */
+body.dark-mode .card {
+  background-color: #2a2e33;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode textarea {
+  background-color: #333;
+  color: white;
+  border: 1px solid #555;
+}
+
+body.dark-mode button {
+  background-color: #007bff;
+}
+
+body.dark-mode button:hover {
+  background-color: #0056b3;
+}
+
+/* Feedback Container Styles */
+.feedback-container {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+  color: #333;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-container h3 {
+  color: #007bff;
+}
+
+/* Dark Mode Styling for Feedback */
+body.dark-mode .feedback-container {
+  background-color: #333;
+  color: #ffffff;
+}
+
+body.dark-mode .feedback-container h3 {
+  color: #00bfff;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 90%;
+  }
 }

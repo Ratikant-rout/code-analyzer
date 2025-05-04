@@ -11,34 +11,51 @@ function AnalyzeCode() {
       setError("⚠️ Please enter some code to analyze.");
       return;
     }
-
+  
     setLoading(true);
     setError("");
-    setResult(null);
-
+    setResult(null); // Reset previous result to avoid duplicates
+  
     try {
+      // Modify the prompt to request at least 3 recommendations
+      const prompt = `
+        Analyze the following code and provide an overall score, a breakdown of key aspects like naming, modularity, formatting, etc.
+        Also, give at least 3 actionable recommendations for improvement:
+        \n\n${code}
+      `;
+  
       const response = await fetch(
         "https://code-analyzer-wkyt.onrender.com/analyze",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ code }),
+          body: JSON.stringify({ code: prompt }),
         }
       );
-
+  
       if (!response.ok) {
         const errorMessage = await response.text();
         throw new Error(`❌ API Error: ${response.status} - ${errorMessage}`);
       }
-
+  
       const data = await response.json();
-      setResult(data);
+  
+      // Ensure there are at least 3 recommendations in the response
+      const recommendations = data.recommendations || [];
+  
+      // Add placeholders if less than 3 recommendations
+      while (recommendations.length < 3) {
+        recommendations.push("No additional recommendations available.");
+      }
+  
+      setResult({ ...data, recommendations });
     } catch (error) {
       setError(error.message || "🚨 Failed to analyze code. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
@@ -93,7 +110,7 @@ function AnalyzeCode() {
 
           <h4 className="mt-5 text-lg font-medium">✅ Recommendations:</h4>
           <ul className="mt-2 space-y-2">
-            {result.recommendations.map((rec, index) => (
+            {result.recommendations.slice(0, 3).map((rec, index) => (
               <li
                 key={index}
                 className="p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-md shadow-sm"
@@ -101,6 +118,11 @@ function AnalyzeCode() {
                 {rec}
               </li>
             ))}
+            {result.recommendations.length === 0 && (
+              <li className="p-3 bg-yellow-100 border-l-4 border-yellow-500 rounded-md shadow-sm">
+                No recommendations available.
+              </li>
+            )}
           </ul>
         </div>
       )}
@@ -109,3 +131,4 @@ function AnalyzeCode() {
 }
 
 export default AnalyzeCode;
+
